@@ -1,0 +1,9 @@
+-- created a new database in the pgadmin for this new project as below. 
+
+  Database name: DataWarehouse
+
+-- Since the datawarehouse architecture is designed basded on the Bronze, Silver and Gold layers, three scehams were created to cater that design. 
+ 
+  CREATE SCHEMA bronzel;
+  CREATE SCHEMA silver;
+  CREATE SCHEMA gold;
