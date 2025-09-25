@@ -1,4 +1,4 @@
--- Select the Silver Schema for the table creation.
+-- Select the Bonze Schema for the table creation.
 SET SEARCH_PATH TO silver;
 
 -- The script used to create table in the bronze layer was taken to create tables in the silver layers as well.
@@ -22,6 +22,7 @@ DROP TABLE IF EXISTS silver.crm_prd_info;
 CREATE TABLE silver.crm_prd_info
 (
     prd_id int,
+    cat_id text,
     prd_key text,
     prd_nm text,
     prd_cost int,
@@ -38,9 +39,9 @@ CREATE TABLE silver.crm_sales_details
     sls_ord_num text,
     sls_prd_key text,
     sls_cust_id int,
-    sls_order_dt int,
-    sls_ship_dt int,
-    sls_due_dt int,
+    sls_order_dt date,
+    sls_ship_dt date,
+    sls_due_dt date,
     sls_sales int,
     sls_quantity int,
     sls_price int,
