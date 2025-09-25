@@ -10,8 +10,7 @@ $$
         Proc_exe_time interval;
     BEGIN
         stat_time = now();
-
-
+-- ......................................................................................................................
         BEGIN
              -- Load Customer Data
             RAISE NOTICE 'Loading the customer data!';
@@ -60,6 +59,8 @@ $$
         END;
 
 
+-- ......................................................................................................................
+
         BEGIN
                -- Load prd data
             RAISE NOTICE 'Loading the prd data!';
@@ -94,13 +95,14 @@ $$
             RAISE NOTICE 'Error loading prd data : %', SQLERRM;
         END;
 
-
+-- ......................................................................................................................
         BEGIN
             -- Load sales data
             RAISE NOTICE 'Loading the sales data!';
             TRUNCATE TABLE silver.crm_sales_details;
             INSERT INTO silver.crm_sales_details
-                ( sls_ord_num,
+                (
+                   sls_ord_num,
                    sls_prd_key,
                    sls_cust_id,
                    sls_order_dt,
@@ -118,7 +120,7 @@ $$
             --        Fixing the date columns
                    CASE
                        WHEN sls_order_dt = 0 OR length(sls_order_dt::text) != 8 THEN NULL
-                       ELSE (sls_order_dt ::text) :: date
+                       ELSE to_date(sls_order_dt :: text,'YYYYMMDD')
                     END AS sls_order_dt,
                 CASE
                        WHEN sls_ship_dt = 0 OR length(sls_ship_dt::text) != 8 THEN NULL
@@ -152,7 +154,7 @@ $$
 
         END;
 
-
+-- ......................................................................................................................
         BEGIN
              -- Load az12 data
             RAISE NOTICE 'Loading the az12 data!';
@@ -178,7 +180,7 @@ $$
 
         END;
 
-
+-- ......................................................................................................................
         BEGIN
             -- Load a101 data
             RAISE NOTICE 'Loading the a101 data!';
@@ -197,6 +199,7 @@ $$
 
         END;
 
+-- ......................................................................................................................
 
         BEGIN
             -- load g1v2 data
@@ -209,7 +212,6 @@ $$
             RAISE NOTICE 'Error loading g1v1 data : %', SQLERRM;
 
         END;
-
         end_time = now();
 
 --      Proc execute time calculation:
@@ -218,8 +220,5 @@ $$
     END;
 $$;
 
-CALL load_silver();
+CALL silver.Load_silver();
 
-
-SELECT *
-FROM silver.crm_cust_info;
